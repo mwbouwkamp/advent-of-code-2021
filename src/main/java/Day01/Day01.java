@@ -12,32 +12,10 @@ public class Day01 {
                 .mapToInt(Integer::parseInt)
                 .boxed()
                 .collect(Collectors.toList());
-        int increases = 0;
-        for (int i = 1; i < depths.size(); i++) {
-            if (depths.get(i) > depths.get(i - 1)) {
-                increases++;
-            }
-        }
-        System.out.println(increases);
+        Day01Solver solver = new Day01Solver(depths, 3);
 
-        increases = 0;
-        int windowSize = 3;
-        for (int i = windowSize; i < depths.size(); i++) {
-            int first = calculateWindow(depths, i - 1, windowSize);
-            int second = calculateWindow(depths, i, windowSize);
-            if (second > first) {
-                increases++;
-            }
-        }
+        System.out.println(solver.solveDay01a());
 
-        System.out.println(increases);
-    }
-
-    private static int calculateWindow(List<Integer> dephts, int index, int windowSize) {
-        int windowSum = 0;
-        for (int i = 0; i < windowSize; i++) {
-            windowSum += dephts.get(index - i);
-        }
-        return windowSum;
+        System.out.println(solver.solveDay01b());
     }
 }
