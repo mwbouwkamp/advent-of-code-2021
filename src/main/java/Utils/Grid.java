@@ -30,6 +30,9 @@ public class Grid<T> {
         this.yOffset = 0;
     }
 
+    public List<List<T>> getGrid() {
+        return grid;
+    }
     public T getElement(int x, int y) {
         try {
             return grid.get(y + yOffset).get(x + xOffset);
