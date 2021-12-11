@@ -133,21 +133,21 @@ public class InputSequence {
 
         String charF = "";
 
+        String remainingUncertain = state.values().stream()
+                .filter(s -> s.length() == 2)
+                .findFirst()
+                .orElse("");
+
         for (String character: charactersLenght6) {
             System.out.println(character);
             long occurances = charactersLenght6.stream()
                     .filter(c -> c.equals(character))
                     .count();
-//            if (occurances == 3L) {
-
-///////////////////////////
-
-
-//                if (isCorrectKey) {
-//                    charF = character;
-//                }
-//            }
+            if (occurances == 3L && remainingUncertain.contains(character)) {
+                charF = character;
+            }
         }
+
 
         String charFPair = state.get('f').replace(charF, "");
         state.put('f', charF);
