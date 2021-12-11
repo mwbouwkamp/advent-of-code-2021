@@ -73,21 +73,21 @@ public class InputSequence {
                 .filter(pattern -> pattern.length() == 5)
                 .reduce("", (a, b) -> a + b)
                 .split(""))
+                .sorted(String::compareTo)
                 .collect(Collectors.toList());
         String charactersLenght4 = signalPatters.stream()
                 .filter(pattern -> pattern.length() == 4)
                 .findFirst()
                 .orElse("");
-        charactersLenght5.sort(String::compareTo);
 
         String charE = "";
         String charB = "";
 
         for (String character: charactersLenght5) {
-            long occurances = charactersLenght5.stream()
+            long occurrences = charactersLenght5.stream()
                     .filter(c -> c.equals(character))
                     .count();
-            if (occurances == 1L) {
+            if (occurrences == 1L) {
                 if (charactersLenght4.contains(character)) {
                     charB = character;
                 } else {
@@ -96,13 +96,8 @@ public class InputSequence {
             }
         }
 
-        String charBPair = state.get('b').replace(charB, "");
-        state.put('b', charB);
-        state.put('d', charBPair);
-
-        String charEPair = state.get('g').replace(charE, "");
-        state.put('e', charE);
-        state.put('g', charEPair);
+        solvePair(state, charB, 'b', 'd');
+        solvePair(state, charE, 'e', 'g');
 
 //       This is the status at this point, showing the possiblities out there
 //
@@ -139,37 +134,34 @@ public class InputSequence {
                 .orElse("");
 
         for (String character: charactersLenght6) {
-            System.out.println(character);
-            long occurances = charactersLenght6.stream()
+            long occurrences = charactersLenght6.stream()
                     .filter(c -> c.equals(character))
                     .count();
-            if (occurances == 3L && remainingUncertain.contains(character)) {
+            if (occurrences == 3L && remainingUncertain.contains(character)) {
                 charF = character;
             }
         }
 
-
-        String charFPair = state.get('f').replace(charF, "");
-        state.put('f', charF);
-        state.put('c', charFPair);
+        solvePair(state, charF, 'f', 'c');
 
         String number = outputValues.stream()
-                .map(line -> {
-                    String mappedLine = Arrays.stream(line.split(""))
+                .map(line -> Arrays.stream(line.split(""))
                             .map(c -> state.keySet().stream()
                                     .filter(key -> state.get(key).equals(c))
                                     .findFirst()
                                     .orElse('0'))
                             .sorted(Character::compareTo)
                             .map(c -> c + "")
-                            .collect(Collectors.joining());
-                    System.out.println(line);
-                    System.out.println(mappedLine);
-                    return mappedLine;
-                })
+                            .collect(Collectors.joining()))
                 .map(numbers::get)
-                .reduce("", (a, b) -> a + b);
+                .collect(Collectors.joining());
         return Integer.parseInt(number);
+    }
+
+    private void solvePair(Map<Character, String> state, String charB, char b2, char d) {
+        String charBPair = state.get(b2).replace(charB, "");
+        state.put(b2, charB);
+        state.put(d, charBPair);
     }
 
     private void processCombination(Map<Character, String> state, String combination) {
