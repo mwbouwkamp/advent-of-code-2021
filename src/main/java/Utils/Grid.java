@@ -12,6 +12,9 @@ public class Grid<T> {
     private int xOffset;
     private int yOffset;
 
+    public Grid() {
+        this.grid = new ArrayList<>();
+    }
     public Grid(ArrayList<List<T>> grid) {
         this.grid = grid;
         setNumRowsNumCols();
@@ -179,7 +182,7 @@ public class Grid<T> {
                 .map(line -> line.stream()
                         .map(element -> {
                             if (element == null) {
-                                return "null";
+                                return " ";
                             }
                             return element.toString();
                         })
