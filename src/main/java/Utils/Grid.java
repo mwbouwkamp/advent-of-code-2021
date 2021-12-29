@@ -33,8 +33,8 @@ public class Grid<T> {
         this.yOffset = 0;
     }
 
-    public List<List<T>> getGrid() {
-        return grid;
+    public ArrayList<List<T>> getGrid() {
+        return (ArrayList<List<T>>) grid;
     }
     public T getElement(int x, int y) {
         try {
