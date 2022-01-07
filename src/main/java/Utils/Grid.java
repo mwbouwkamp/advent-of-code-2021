@@ -39,7 +39,7 @@ public class Grid<T> {
     public T getElement(int x, int y) {
         try {
             return grid.get(y + yOffset).get(x + xOffset);
-        } catch (IllegalArgumentException e) {
+        } catch (IndexOutOfBoundsException e) {
             return null;
         }
     }
